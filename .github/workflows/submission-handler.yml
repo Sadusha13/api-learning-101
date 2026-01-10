@@ -27,13 +27,12 @@ jobs:
         uses: actions/github-script@v7
         with:
           script: |
-            // Add comment for new submission
             await github.rest.issues.createComment({
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: context.issue.number,
               body: `## 🎉 Task Submission Successfully Received!
-              
+
 Thank you for completing the API Learning 101 testing task, @${ context.payload.issue.user.login }!
 
 Your submission has been successfully received and is now **pending review**.
@@ -65,7 +64,6 @@ Your submission will be evaluated based on:
 Thank you for your participation! 🎓`
             });
             
-            // Ensure labels are set
             await github.rest.issues.addLabels({
               owner: context.repo.owner,
               repo: context.repo.repo,
@@ -73,7 +71,6 @@ Thank you for your participation! 🎓`
               labels: ['submission', 'pending review']
             });
             
-            // Ensure assigned to nisalgunawardhana
             await github.rest.issues.addAssignees({
               owner: context.repo.owner,
               repo: context.repo.repo,
@@ -183,18 +180,10 @@ Winners will be **randomly selected** from all approved submissions!
               console.log(`Badges assigned: ✅ Approved, 🎓 Completed`);
             } else {
               console.log(`Issue closed by ${closedBy}, not nisalgunawardhana. No badges assigned.`);
-            }
-
-**Thank you for being an amazing contributor!** 🚀
-
-*This issue has been automatically closed and labeled as reviewed.*`
-              });
-            } else {
-              // If closed by someone else, just add a note
               await github.rest.issues.createComment({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 issue_number: context.issue.number,
-                body: `This submission was closed by @${ closedBy }. For official review completion, the issue should be closed by @nisalgunawardhana.`
+                body: `This submission was closed by @${closedBy}. For official review completion, the issue should be closed by @nisalgunawardhana.`
               });
             }

@@ -38,13 +38,12 @@ jobs:
                 const labels = issue.data.labels.map(l => l.name);
                 
                 if (labels.includes('submission')) {
-                  // Add comment to PR
                   await github.rest.issues.createComment({
                     owner: context.repo.owner,
                     repo: context.repo.repo,
                     issue_number: prNumber,
                     body: `✅ This PR is linked to submission issue #${issueNumber}.
-                    
+
 Thank you for linking your submission! Your PR will be reviewed along with the submission issue.
 
 **Reviewer**: @nisalgunawardhana will review this PR as part of the submission process.`
@@ -54,13 +53,12 @@ Thank you for linking your submission! Your PR will be reviewed along with the s
                 console.log('Issue not found or error occurred:', error.message);
               }
             } else {
-              // No issue reference found
               await github.rest.issues.createComment({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 issue_number: prNumber,
                 body: `⚠️ **Missing Submission Link**
-                
+
 This PR doesn't appear to be linked to a submission issue.
 
 If you're submitting work for review:
